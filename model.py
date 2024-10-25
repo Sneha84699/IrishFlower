@@ -3,8 +3,13 @@ import pandas as pd
 import numpy as np
 import pickle
 
-# Load the pre-trained model
-clf = pickle.load(open("mymodel.pkl", "rb"))
+import os
+
+# Check if the file exists
+if os.path.exists("mymodel.pkl"):
+    clf = pickle.load(open("mymodel.pkl", "rb"))
+else:
+    print("Error: 'mymodel.pkl' not found.")
 
 def predict(data):
     return clf.predict(data)
