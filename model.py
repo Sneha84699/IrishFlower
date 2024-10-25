@@ -1,18 +1,29 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
 import pickle
-
 import os
 
-# Check if the file exists
+# Load the model if the file exists
 if os.path.exists("mymodel.pkl"):
-    clf = pickle.load(open("mymodel.pkl", "rb"))
+    try:
+        clf = pickle.load(open("mymodel.pkl", "rb"))
+    except Exception as e:
+        st.error(f"An error occurred while loading the model: {e}")
+        clf = None  # Set clf to None if there's an issue loading the model
 else:
-    print("Error: 'mymodel.pkl' not found.")
+    st.error("Model file 'mymodel.pkl' not found. Please check the file path.")
+    clf = None  # Set clf to None if the model file isn't found
 
 def predict(data):
-    return clf.predict(data)
+    if clf is not None:
+        try:
+            return clf.predict(data)
+        except Exception as e:
+            st.error(f"An error occurred during prediction: {e}")
+            return None
+    else:
+        st.error("Model is not loaded. Prediction cannot be made.")
+        return None
 
 # Streamlit interface for flower prediction
 st.title("Flower Species Prediction using Machine Learning")
@@ -40,5 +51,5 @@ if st.button("Predict Flower Species"):
     # Make prediction using the loaded model
     result = predict(input_data)
     # Display the prediction result
-    st.text(f"Predicted Species: {result[0]}")
-
+    if result is not None:
+        st.text(f"Predicted Species: {result[0]}")
