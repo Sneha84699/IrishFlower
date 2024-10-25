@@ -37,4 +37,3 @@ if st.button("Predict Flower Species"):
     # Display the prediction result
     st.text(f"Predicted Species: {result[0]}")
 
-st.markdown("Developed by Rutuja & Sneha at NIELIT Daman")
