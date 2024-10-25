@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 
 # Load the pre-trained model
-clf = pickle.load(open("model.pkl", "rb"))
+clf = pickle.load(open("mymodel.pkl", "rb"))
 
 def predict(data):
     return clf.predict(data)
